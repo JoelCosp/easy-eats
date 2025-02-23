@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -11,12 +11,23 @@ import HomePage from './pages/HomePage'
 import NavComponent from './components/NavComponent'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    fetch("http://localhost:5000") // La URL de tu backend
+        .then(response => response.text())
+        .then(data => setData(data))
+        .catch(error => console.error("Error al obtener datos:", error));
+    }, []);
 
   return (
     <>
       <NavComponent />
       <HomePage />
+      <div>
+          <h1>Frontend con React</h1>
+          <p>Respuesta del backend: {data}</p>
+      </div>
     </>
   )
 }
